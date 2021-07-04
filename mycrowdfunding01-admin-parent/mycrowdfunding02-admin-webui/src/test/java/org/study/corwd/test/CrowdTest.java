@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.study.crowd.entity.Admin;
+import org.study.crowd.entity.Role;
 import org.study.crowd.mapper.AdminMapper;
+import org.study.crowd.mapper.RoleMapper;
 import org.study.crowd.service.api.AdminService;
 import org.study.crowd.util.CrowdUtil;
 
@@ -27,6 +29,16 @@ public class CrowdTest {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Test
+    public void testRoleSave() {
+        for(int i = 0; i < 235; i++) {
+            roleMapper.insert(new Role(i+1, "role"+i));
+        }
+    }
 
     @Test
     public void testInsertAdmin() throws Exception{
