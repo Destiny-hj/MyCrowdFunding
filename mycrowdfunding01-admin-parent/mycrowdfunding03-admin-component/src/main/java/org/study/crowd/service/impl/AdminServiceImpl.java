@@ -51,9 +51,9 @@ public class AdminServiceImpl implements AdminService {
         } catch (Exception e) {
             e.printStackTrace();
 
-            logger.info("异常全类名="+e.getClass().getName());
+            logger.info("异常全类名=" + e.getClass().getName());
 
-            if(e instanceof DuplicateKeyException) {
+            if (e instanceof DuplicateKeyException) {
                 throw new LoginAcctAlreadyInUseException(CrowdConstant.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
             }
         }
@@ -82,18 +82,18 @@ public class AdminServiceImpl implements AdminService {
         List<Admin> list = adminMapper.selectByExample(adminExample);
 
         // 2.判断Admin对象是否为null
-        if(list == null || list.size() == 0) {
-                throw new LoginFailedException(CrowdConstant.MESSAGE_LOGIN_FAILED);
+        if (list == null || list.size() == 0) {
+            throw new LoginFailedException(CrowdConstant.MESSAGE_LOGIN_FAILED);
         }
 
-        if(list.size() > 1) {
+        if (list.size() > 1) {
             throw new RuntimeException(CrowdConstant.MESSAGE_SYSTEM_ERROR_LOGIN_NOT_UNIQUE);
         }
 
         Admin admin = list.get(0);
 
         // 3.如果Admin对象为null则抛出异常
-        if(admin == null) {
+        if (admin == null) {
             throw new LoginFailedException(CrowdConstant.MESSAGE_LOGIN_FAILED);
         }
 
@@ -104,7 +104,7 @@ public class AdminServiceImpl implements AdminService {
         String userPswdForm = CrowdUtil.md5(userPswd);
 
         // 6.对密码进行比较
-        if(!Objects.equals(userPswdDB, userPswdForm)) {
+        if (!Objects.equals(userPswdDB, userPswdForm)) {
             // 7.如果比较结果是不一致则抛出异常
             throw new LoginFailedException(CrowdConstant.MESSAGE_LOGIN_FAILED);
         }
@@ -144,12 +144,22 @@ public class AdminServiceImpl implements AdminService {
             adminMapper.updateByPrimaryKeySelective(admin);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("异常全类名="+e.getClass().getName());
+            logger.info("异常全类名=" + e.getClass().getName());
 
-            if(e instanceof DuplicateKeyException) {
+            if (e instanceof DuplicateKeyException) {
                 throw new LoginAcctAlreadyInUseForUpdateException(CrowdConstant.MESSAGE_LOGIN_ACCT_ALREADY_IN_USE);
             }
 
+        }
+    }
+
+    @Override
+    public void saveAdminRoleRelationship(Integer adminId, List<Integer> roleIdList) {
+        // 1.根据 adminId 删除旧的关联关系数据
+        adminMapper.deleteOLdRelationship(adminId);
+        // 2.根据 roleIdList 和 adminId 保存新的关联关系
+        if (roleIdList != null && roleIdList.size() > 0) {
+            adminMapper.insertNewRelationship(adminId, roleIdList);
         }
     }
 }
