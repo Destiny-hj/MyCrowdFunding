@@ -2,6 +2,7 @@ package org.study.crowd.mvc.handler;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ public class AdminHandler {
         return "admin-edit";
     }
 
+    @PreAuthorize("hasAuthority('user:save')")
     @RequestMapping("admin/save.html")
     public String save(Admin admin) {
 
@@ -79,7 +81,7 @@ public class AdminHandler {
     public String logout(HttpSession session){
         //清空缓存
         session.invalidate();
-        return "redirect:/admin/to/login.html";
+        return "redirect:/admin/to/login/page.html";
     }
 
     @RequestMapping("admin/do/login.html")

@@ -8,11 +8,11 @@
     <display-name>Archetype Created Web Application</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-persist-*.xml</param-value>
+        <param-value>classpath:spring-*.xml</param-value>
     </context-param>
 
     <welcome-file-list>
-        <welcome-file>admin/to/login.html</welcome-file>
+        <welcome-file>admin/to/login/page.html</welcome-file>
     </welcome-file-list>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -38,13 +38,13 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    
+
     <servlet>
         <servlet-name>springDispatcherServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath:spring-web-mvc.xml</param-value>
+            <param-value>classpath:spring-web-mvc.xml,classpath:spring-persist-*.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -53,4 +53,14 @@
         <url-pattern>*.html</url-pattern>
         <url-pattern>*.json</url-pattern>
     </servlet-mapping>
+
+    <!-- SpringSecurity 的 Filter -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

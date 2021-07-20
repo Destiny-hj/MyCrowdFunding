@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-import org.study.crowd.exception.AccessForbiddenException;
 import org.study.crowd.exception.LoginAcctAlreadyInUseException;
 import org.study.crowd.exception.LoginAcctAlreadyInUseForUpdateException;
 import org.study.crowd.exception.LoginFailedException;
@@ -57,14 +56,14 @@ public class CrowdExceptionResolver {
 		return commonResolve(viewName, exception, request, response);
 	}
 
-	@ExceptionHandler(value = AccessForbiddenException.class)
-	public ModelAndView resolveAccessForbiddenException(
-			AccessForbiddenException exception,
+	@ExceptionHandler(value = Exception.class)
+	public ModelAndView resolveException(
+			Exception exception,
 			HttpServletRequest request,
 			HttpServletResponse response
 	) throws IOException {
 
-		String viewName = "admin-login";
+		String viewName = "system-error";
 
 		return commonResolve(viewName, exception, request, response);
 	}

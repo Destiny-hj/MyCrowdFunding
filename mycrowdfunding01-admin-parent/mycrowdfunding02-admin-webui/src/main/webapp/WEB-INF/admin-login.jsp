@@ -38,15 +38,16 @@
 
 <div class="container">
 
-    <form action="admin/do/login.html" method="post" class="form-signin" role="form">
+    <form action="security/do/login.html" method="post" class="form-signin" role="form">
         <h2 class="form-signin-heading"><i class="glyphicon glyphicon-log-in"></i> 管理员登录</h2>
         ${requestScope.exception.message}
+        <p>${SPRING_SECURITY_LAST_EXCEPTION }</p>
         <div class="form-group has-success has-feedback">
             <input type="text" class="form-control" name="loginAcct" id="inputSuccess4" value="chj" placeholder="请输入登录账号" autofocus>
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
         </div>
         <div class="form-group has-success has-feedback">
-            <input type="text" class="form-control" name="userPswd" id="inputSuccess4" value="666666" placeholder="请输入登录密码" style="margin-top:10px;">
+            <input type="text" class="form-control" name="userPswd" id="inputSuccess4" value="123123" placeholder="请输入登录密码" style="margin-top:10px;">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
         </div>
         <button type="submit" class="btn btn-lg btn-success btn-block" > 登录</button>
